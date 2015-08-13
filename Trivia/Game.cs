@@ -26,6 +26,21 @@ namespace UglyTrivia
 
         public Game()
         {
+            var questions = CreateQuestions();
+
+            popQuestions = questions.popQuestions;
+            scienceQuestions = questions.scienceQuestions;
+            rockQuestions = questions.rockQuestions;
+            sportsQuestions = questions.sportsQuestions;
+        }
+
+        private static Questions CreateQuestions()
+        {
+            var popQuestions = new LinkedList<string>(); 
+            var scienceQuestions = new LinkedList<string>(); 
+            var sportsQuestions = new LinkedList<string>(); 
+            var rockQuestions = new LinkedList<string>(); 
+
             for (int i = 0; i < 50; i++)
             {
                 popQuestions.AddLast("Pop Question " + i);
@@ -33,9 +48,17 @@ namespace UglyTrivia
                 sportsQuestions.AddLast(("Sports Question " + i));
                 rockQuestions.AddLast(createRockQuestion(i));
             }
+
+            return new Questions
+            {
+                popQuestions = popQuestions,
+                scienceQuestions = scienceQuestions,
+                sportsQuestions = sportsQuestions,
+                rockQuestions = rockQuestions
+            };
         }
 
-        public String createRockQuestion(int index)
+        public static String createRockQuestion(int index)
         {
             return "Rock Question " + index;
         }
@@ -47,16 +70,21 @@ namespace UglyTrivia
 
         public bool add(String playerName)
         {
+            players.Add(addPlayer(playerName));
 
+            Console.WriteLine(playerName + " was added");
+            Console.WriteLine("They are player number " + players.Count);
 
-            players.Add(playerName);
             places[howManyPlayers()] = 0;
             purses[howManyPlayers()] = 0;
             inPenaltyBox[howManyPlayers()] = false;
 
-            Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + players.Count);
             return true;
+        }
+
+        private static string addPlayer(string playerName)
+        {
+            return playerName;
         }
 
         public int howManyPlayers()
@@ -199,9 +227,18 @@ namespace UglyTrivia
             Console.WriteLine(players[currentPlayer] + " was sent to the penalty box");
             inPenaltyBox[currentPlayer] = true;
 
-            currentPlayer++;
-            if (currentPlayer == players.Count) currentPlayer = 0;
+            currentPlayer = foo(currentPlayer, players.Count);
+
             return true;
+        }
+
+        private static int foo(int player, int playerCount)
+        {
+            player++;
+
+            if (player == playerCount) player = 0;
+
+            return player;
         }
 
 
@@ -211,4 +248,11 @@ namespace UglyTrivia
         }
     }
 
+    internal class Questions
+    {
+        public LinkedList<string> popQuestions { get; set; }
+        public LinkedList<string> scienceQuestions { get; set; }
+        public LinkedList<string> sportsQuestions { get; set; }
+        public LinkedList<string> rockQuestions { get; set; }
+    }
 }
