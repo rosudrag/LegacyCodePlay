@@ -10,7 +10,7 @@ namespace Trivia
     public class GameRunner
     {
 
-        private static bool notAWinner;
+        private static bool _canContinueGame;
 
         public static void Main(String[] args)
         {
@@ -19,26 +19,26 @@ namespace Trivia
 
         public static void RunGame(Random random)
         {
-            Game aGame = new Game();
+            QuestionGame aQuestionGame = new QuestionGame();
 
-            aGame.add("Chet");
-            aGame.add("Pat");
-            aGame.add("Sue");
+            aQuestionGame.AddPlayer("Chet");
+            aQuestionGame.AddPlayer("Pat");
+            aQuestionGame.AddPlayer("Sue");
 
             do
             {
 
-                aGame.roll(random.Next(5) + 1);
+                aQuestionGame.TakeTurn(random.Next(5) + 1);
 
                 if (random.Next(9) == 7)
                 {
-                    notAWinner = aGame.wrongAnswer();
+                    _canContinueGame = aQuestionGame.AnnounceWrongAnswer();
                 }
                 else
                 {
-                    notAWinner = aGame.wasCorrectlyAnswered();
+                    _canContinueGame = aQuestionGame.AnnounceCorrectAnswer();
                 }
-            } while (notAWinner);
+            } while (_canContinueGame);
         }
 
 

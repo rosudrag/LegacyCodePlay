@@ -13,19 +13,19 @@
         [Test]
         public void MyGameHasOnePlayerAfterAddingOnePlayer()
         {
-            var myGame = new Game();
+            var myGame = new QuestionGame();
 
-            myGame.add("myPlayer");
+            myGame.AddPlayer("myPlayer");
 
-            Assert.AreEqual(myGame.howManyPlayers(), 1);
+            Assert.AreEqual(myGame.PlayerCount(), 1);
         }
 
         [Test]
         public void GameIsNotPlayableWithoutPlayers()
         {
-            var myGame = new Game();
+            var myGame = new QuestionGame();
 
-            var playable = myGame.isPlayable();
+            var playable = myGame.IsPlayable();
 
             Assert.False(playable);
         }
@@ -33,44 +33,44 @@
         [Test]
         public void GameIsNotPlayableWithOnePlayer()
         {
-            var myGame = new Game();
+            var myGame = new QuestionGame();
 
-            myGame.add("player one");
+            myGame.AddPlayer("player one");
 
-            Assert.False(myGame.isPlayable());
+            Assert.False(myGame.IsPlayable());
         }
 
         [Test]
         public void GameIsPlayableWithTwoPlayers()
         {
-            var myGame = new Game();
+            var myGame = new QuestionGame();
 
-            myGame.add("player one");
-            myGame.add("player two");
+            myGame.AddPlayer("player one");
+            myGame.AddPlayer("player two");
 
-            Assert.True(myGame.isPlayable());
+            Assert.True(myGame.IsPlayable());
         }
 
         [Test]
         public void GameIsNotPlayableWithMoreThan5Players()
         {
-            var myGame = new Game();
+            var myGame = new QuestionGame();
 
             for (int i = 0; i <= 4; i++)
             {
-                myGame.add("player " + i);
+                myGame.AddPlayer("player " + i);
             }
 
-            Assert.Throws<IndexOutOfRangeException>(() => { myGame.add("I crash"); });
+            Assert.Throws<IndexOutOfRangeException>(() => { myGame.AddPlayer("I crash"); });
 
         }
 
         [Test]
         public void NewGameHasZeroPlayers()
         {
-            var myGame = new Game();
+            var myGame = new QuestionGame();
 
-            Assert.AreEqual(myGame.howManyPlayers(), 0);
+            Assert.AreEqual(myGame.PlayerCount(), 0);
         }
 
         [Test]
@@ -107,7 +107,7 @@
 
             var output = builder.ToString();
 
-            Assert.AreEqual(expectedOutput, output, "Game output does not match the golden master");
+            Assert.AreEqual(expectedOutput, output, "QuestionGame output does not match the golden master");
         }
 
     }
